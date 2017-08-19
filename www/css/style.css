@@ -1,0 +1,21 @@
+/* Empty. Add your own CSS if you like */
+.yellow-background{
+	background-color:#f9bf13;
+}
+.top-banner{
+	margin-left: -10px;
+	width: calc(100% + 20px);
+	height:250px;
+}
+.white-background{
+	background-color:#fff;
+}
+
+.scroll {
+    height: 100%;
+}
+ 
+#map {
+    width: 100%;
+    height: 100%;
+}
