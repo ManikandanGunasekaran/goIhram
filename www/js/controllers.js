@@ -77,50 +77,65 @@ function ($scope, $cordovaGeolocation, $ionicLoading) {
 
         }
 
+$scope.cities = [
+    {
+        name : 'Friend 1',
+        desc : 'T',
+        lat : 12.238983,
+        long : 80.888509
+    },
+    {
+        name : 'Friend 2',
+        desc : 'Te',
+        lat : 13.238168,
+        long :79.238168
+    },
+    {
+        name : 'Friend 3',
+        desc : 'Tes',
+        lat :14.242452,
+        long : 79.889882 
+    },
+    {
+        name : 'Friend 4',
+        desc : 'zesc',
+        lat : 12.247234,
+        long : 80.893567 
+    },
+    {
+        name : 'Friend 5',
+        desc : 'Test',
+        lat : 12.241874,
+        long : 79.883568 
+    }
+];
 
 
 
 $scope.loadNearByPlaces = function(){
- 
-      var infowindow = new google.maps.InfoWindow();
-        var service = new google.maps.places.PlacesService($scope.map);
-   $cordovaGeolocation.getCurrentPosition(posOptions).then(function(pos){
-               var lat  = pos.coords.latitude;
-               var long = pos.coords.longitude;
-               var loc =  new google.maps.LatLng(lat, long);
-               var pyrmont = $scope.getYourPosition();
-                      if(pyrmont!==null){
-                         service.nearbySearch({
-                        location: pyrmont,
-                        radius: 500,
-                        type: ['store']
-                      }, callback);
-                    }
-              });
-
-
-       
-
-       function callback(results, status) {
-        if (status === google.maps.places.PlacesServiceStatus.OK) {
-          for (var i = 0; i < results.length; i++) {
-            createMarker(results[i]);
-          }
+       $scope.markers = [];
+        var infoWindow = new google.maps.InfoWindow();
+        var createMarker = function (info){
+            var latLang = new google.maps.LatLng(info.lat, info.long);
+            var marker = new google.maps.Marker({
+                position: latLang,
+                map: $scope.map,
+                title: info.name
+            });
+            marker.setMap($scope.map);
+            marker.content = '<div class="infoWindowContent">' + info.desc + '</div>';
+            google.maps.event.addListener(marker, 'click', function(){
+                infoWindow.setContent('<h2>' + marker.title + '</h2>' + marker.content);
+                infoWindow.open($scope.map, marker);
+            });
+            $scope.markers.push(marker);
+            $scope.map.setCenter(latLang);
+            
+        }  
+        for (i = 0; i < $scope.cities.length; i++){
+            createMarker($scope.cities[i]);
         }
-      }
-      function createMarker(place) {
-        var placeLoc = place.geometry.location;
-        var marker = new google.maps.Marker({
-          map: $scope.map,
-          position: place.geometry.location
-        });
 
-        google.maps.event.addListener(marker, 'click', function() {
-          infowindow.setContent(place.name);
-          infowindow.open($scope.map, this);
-        });
-      }
-       
 }
 
 
@@ -150,7 +165,7 @@ $scope.getYourPosition = function(){
                 if(loc !== null){
                     var mapOptions = {
                     center: loc,
-                    zoom: 16,
+                    zoom: 4,
                     mapTypeId: google.maps.MapTypeId.ROADMAP
                 };    
                    $scope.map.setCenter(loc);
@@ -172,11 +187,12 @@ $scope.getYourPosition = function(){
         $cordovaGeolocation.getCurrentPosition(posOptions).then(function (position) {
             var lat  = position.coords.latitude;
             var long = position.coords.longitude;
-             
+            console.log(lat);
+            console.log(long);
             var myLatlng = new google.maps.LatLng(lat, long);          
             var mapOptions = {
                 center: myLatlng,
-                zoom: 16,
+                zoom: 4,
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             };          
              
@@ -187,7 +203,7 @@ $scope.getYourPosition = function(){
               var marker = new google.maps.Marker({
                 position:myLatlng,
                 map: $scope.map,
-                title:'new location'
+                title:'My Location'
            });
            marker.setMap( $scope.map);
            
