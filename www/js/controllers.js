@@ -47,7 +47,7 @@ function ($scope, $cordovaGeolocation, $ionicLoading) {
             maximumAge: 0
         };
 
-    $scope.addNew = function(){
+    $scope.addNew = function(frndLatLang){
       if(!$scope.map){return ;}
       $ionicLoading.show({
             template: '<ion-spinner icon="bubbles"></ion-spinner><br/>Acquiring location!'
@@ -60,7 +60,7 @@ function ($scope, $cordovaGeolocation, $ionicLoading) {
             var long = pos.coords.longitude;
 
             var start = new google.maps.LatLng(lat, long);;
-            var end = new google.maps.LatLng('13.0102357', '80.21565099999998');
+            var end = frndLatLang;
             var request = {
               origin: start,
               destination: end,
@@ -127,6 +127,8 @@ $scope.loadNearByPlaces = function(){
             google.maps.event.addListener(marker, 'click', function(){
                 infoWindow.setContent('<h2>' + marker.title + '</h2>' + marker.content);
                 infoWindow.open($scope.map, marker);
+                var frndLatLang = new google.maps.LatLng(marker.position.lat(), marker.position.lng());
+                $scope.addNew(frndLatLang);
             });
             $scope.markers.push(marker);
             $scope.map.setCenter(latLang);
