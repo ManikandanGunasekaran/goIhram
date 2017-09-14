@@ -40,7 +40,7 @@ app.controller('mapCtrl', ['$scope', '$cordovaGeolocation', '$ionicLoading', 'ma
                     var request = {
                         origin: start,
                         destination: end,
-                        travelMode: 'DRIVING'
+                        travelMode: 'WALKING'
                     };
                     $ionicLoading.hide();
 
@@ -168,7 +168,7 @@ app.controller('mapCtrl', ['$scope', '$cordovaGeolocation', '$ionicLoading', 'ma
                     if (loc !== null) {
                         var mapOptions = {
                             center: loc,
-                            zoom: 4,
+                            zoom: 15,
                             mapTypeId: google.maps.MapTypeId.ROADMAP
                         };
                         $scope.map.setCenter(loc);
@@ -195,7 +195,7 @@ app.controller('mapCtrl', ['$scope', '$cordovaGeolocation', '$ionicLoading', 'ma
                 $scope.myLatlng = new google.maps.LatLng(lat, long);
                 var mapOptions = {
                     center: $scope.myLatlng,
-                    zoom: 4,
+                    zoom: 15,
                     mapTypeId: google.maps.MapTypeId.ROADMAP
                 };
 
